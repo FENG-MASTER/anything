@@ -13,10 +13,29 @@ public abstract class ResourceActionCard extends BaseActionCard {
     private Map<ResourceType,Integer> eachGetResources;
 
 
-    private Map<ResourceType,Integer> allResources=new HashMap<>();;
+    protected Map<ResourceType,Integer> allResources=new HashMap<>();
 
+    public abstract String getBaseName();
 
-    public ResourceActionCard(Map<ResourceType,Integer> resource,Boolean stockpiling){
+    @Override
+    public String getName() {
+        String baseName="";
+        if (stockpiling){
+            baseName="+";
+        }
+        baseName+=getBaseName();
+
+        if (allResources!=null&&!allResources.isEmpty()){
+
+            int sum = allResources.entrySet().stream().mapToInt(Map.Entry::getValue).sum();
+            if (sum!=0){
+                return baseName+"["+sum+"]";
+            }
+        }
+        return baseName;
+    }
+
+    public ResourceActionCard(Map<ResourceType,Integer> resource, Boolean stockpiling){
         eachGetResources=resource;
         this.stockpiling=stockpiling;
     }
@@ -35,7 +54,7 @@ public abstract class ResourceActionCard extends BaseActionCard {
     }
 
     @Override
-    public void nextRound(int nextRound) {
+    public void innerNextRound(int nextRound) {
         if (!stockpiling){
             allResources.clear();
         }

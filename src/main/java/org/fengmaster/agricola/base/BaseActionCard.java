@@ -2,9 +2,22 @@ package org.fengmaster.agricola.base;
 
 public abstract class BaseActionCard {
 
-    public abstract String getName();
+    private boolean canUse=true;
+
+    protected abstract String getName();
 
     public abstract String getDesc();
+
+    public  String getDisplayName(){
+        if (!canUse){
+            return " [X] "+getName();
+        }else {
+            return getName();
+        }
+
+
+    }
+
 
 
     /**
@@ -14,9 +27,35 @@ public abstract class BaseActionCard {
      */
     public abstract boolean done(Player player,String input);
 
+    public boolean playerUse(Player player,String input){
+        boolean done = done(player, input);
+        if (done){
+            canUse=false;
+            System.out.println(player.getName()+" 执行了 " +getDisplayName());
+        }
+        return done;
+    }
+
+    public boolean playerUndo(Player player,String input){
+        boolean undo = undo(player);
+        if (undo){
+            canUse=true;
+        }
+        return undo;
+    }
+
     public abstract boolean undo(Player player);
 
 
-    public abstract void nextRound(int nextRound);
+    public  void nextRound(int nextRound){
+        canUse=true;
+        innerNextRound(nextRound);
+    }
+
+    public abstract void innerNextRound(int nextRound);
+
+    public  boolean canUse(Player player){
+        return canUse;
+    };
 
 }

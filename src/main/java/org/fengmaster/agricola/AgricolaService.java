@@ -9,8 +9,10 @@ import com.googlecode.lanterna.screen.TerminalScreen;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
 import lombok.extern.java.Log;
+import org.fengmaster.agricola.game.Game;
 
 import java.io.IOException;
+import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -18,48 +20,54 @@ import java.util.regex.Pattern;
 public class AgricolaService   {
 
 
+    private static String numberPattern = "\\d+";
+    // 编译正则表达式
+    private static Pattern pattern = Pattern.compile(numberPattern);
 
 
     public static void main(String[] args) {
-        // 创建一个终端和屏幕
-        DefaultTerminalFactory terminalFactory = new DefaultTerminalFactory();
-        try {
-            Terminal terminal = terminalFactory.createTerminal();
-            Screen screen = terminalFactory.createScreen();
-            screen.startScreen();
+        Scanner scanner = new Scanner(System.in);
+        Game  game=new Game();
+        game.start();
+        while (true) {
+            System.out.println(game.info());
+            String input = scanner.nextLine();
 
-            // 创建一个窗口并设置标题
-            BasicWindow window = new BasicWindow("Lanterna Simple GUI");
 
-            // 创建面板来承载组件
-            Panel panel = new Panel(new GridLayout(2));
+            if (input.contains("next")){
+                //下一回合
+                game.nextRound();
+            }else if(input.contains("ai")){
+                //ai执行
+                game.aiNext();
 
-            // 在左上角添加一些文本
-            panel.addComponent(new Label("欢迎使用Lanterna!").setLayoutData(GridLayout.createLayoutData(
-                    GridLayout.Alignment.BEGINNING, GridLayout.Alignment.BEGINNING)));
+            }else {
 
-            // 创建并添加一个按钮，当点击时输出信息
-            Button button = new Button("点击我", new Runnable() {
-                @Override
-                public void run() {
-                    System.out.println("按钮被点击了!");
+
+                //输入类似  1 参数
+                //先找出第一个数字
+                Matcher matcher = pattern.matcher(input);
+
+                // 查找字符串中第一个匹配正则表达式的子串
+                if (matcher.find()) {
+                    String actionIndexStr = matcher.group();
+
+                    // 提取数字之后的字符串
+                    String inputParms = input.substring(input.indexOf(actionIndexStr) + actionIndexStr.length());
+                    int actionIndex= Integer.parseInt(actionIndexStr);
+                    game.playerAction(game.player,actionIndex,inputParms);
+
+                } else {
+                    System.out.println("字符串中没有出现数字。");
                 }
-            }).setLayoutData(GridLayout.createLayoutData(
-                    GridLayout.Alignment.CENTER, GridLayout.Alignment.CENTER));
 
-            panel.addComponent(button);
 
-            // 将面板添加到窗口中
-            window.setComponent(panel);
+            }
 
-            // 创建一个GUI并启动
-            MultiWindowTextGUI gui = new MultiWindowTextGUI(screen, new DefaultWindowManager(), new EmptySpace(TextColor.ANSI.BLUE));
-            gui.addWindowAndWait(window);
 
-        } catch (IOException e) {
-            e.printStackTrace();
+
+
         }
-
 
 
     }

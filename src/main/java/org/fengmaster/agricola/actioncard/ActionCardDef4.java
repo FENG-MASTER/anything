@@ -1,4 +1,4 @@
-package org.fengmaster.agricola.ActionCard;
+package org.fengmaster.agricola.actioncard;
 
 import cn.hutool.core.util.StrUtil;
 import org.fengmaster.agricola.base.*;
@@ -24,7 +24,7 @@ public class ActionCardDef4 extends BaseActionCard {
         }
 
         if (input.equals("1m")||input.equals("m")){
-            player.addResource(ResourceType.OCCUPATION,1);
+            player.addResource(ResourceType.MINOR_IMPROVEMENT,1);
             return true;
         }else {
             return false;
@@ -33,12 +33,12 @@ public class ActionCardDef4 extends BaseActionCard {
 
     @Override
     public boolean undo(Player player) {
-        player.subResource(ResourceType.OCCUPATION,1);
+        player.subResource(ResourceType.MINOR_IMPROVEMENT,1);
         return true;
     }
 
     @Override
-    public void nextRound(int nextRound) {
+    public void innerNextRound(int nextRound) {
 
     }
 }

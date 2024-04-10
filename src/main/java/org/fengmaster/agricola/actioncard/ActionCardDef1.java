@@ -1,9 +1,12 @@
-package org.fengmaster.agricola.ActionCard;
+package org.fengmaster.agricola.actioncard;
 
 
 import org.fengmaster.agricola.base.ResourceActionCard;
 import org.fengmaster.agricola.base.ResourceType;
 import org.fengmaster.agricola.base.Util;
+
+import java.util.Map;
+import java.util.function.ToIntFunction;
 
 public class ActionCardDef1 extends ResourceActionCard {
 
@@ -12,9 +15,11 @@ public class ActionCardDef1 extends ResourceActionCard {
     }
 
     @Override
-    public String getName() {
+    public String getBaseName() {
         return "钓鱼";
     }
+
+
 
     @Override
     public String getDesc() {

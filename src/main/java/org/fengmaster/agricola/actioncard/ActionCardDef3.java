@@ -1,4 +1,4 @@
-package org.fengmaster.agricola.ActionCard;
+package org.fengmaster.agricola.actioncard;
 
 
 import org.fengmaster.agricola.base.BaseActionCard;
@@ -42,7 +42,7 @@ public class ActionCardDef3 extends BaseActionCard {
     }
 
     @Override
-    public void nextRound(int nextRound) {
+    public void innerNextRound(int nextRound) {
 
     }
 }

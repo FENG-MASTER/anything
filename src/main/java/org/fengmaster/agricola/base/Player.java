@@ -3,12 +3,22 @@ package org.fengmaster.agricola.base;
 import lombok.Data;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 @Data
 public class Player {
 
-    private Map<ResourceType,Integer> resourceMap=new HashMap<>();
+    private boolean isAi=true;
+
+    private String name;
+
+    public Player(boolean isAi, String name) {
+        this.isAi = isAi;
+        this.name = name;
+    }
+
+    private Map<ResourceType,Integer> resourceMap=new LinkedHashMap<>();
     {
         resourceMap.put(ResourceType.WOOD,0);
         resourceMap.put(ResourceType.CLAY,0);
@@ -20,6 +30,9 @@ public class Player {
         resourceMap.put(ResourceType.GRAIN,0);
         resourceMap.put(ResourceType.FIELD,0);
         resourceMap.put(ResourceType.VEGETABLES,0);
+        resourceMap.put(ResourceType.PERSON,2);
+        resourceMap.put(ResourceType.WOOD_ROOM,2);
+
     }
 
     public int getResource(ResourceType resourceType){
@@ -34,6 +47,8 @@ public class Player {
     public void subResource(ResourceType resourceType,int num){
         resourceMap.put(resourceType,resourceMap.getOrDefault(resourceType,0)-num);
     }
+
+
 
 
 }

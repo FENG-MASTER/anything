@@ -1,4 +1,4 @@
-package org.fengmaster.agricola.ActionCard;
+package org.fengmaster.agricola.actioncard;
 
 
 import org.fengmaster.agricola.base.ResourceActionCard;
@@ -12,7 +12,7 @@ public class ActionCardStage1A extends ResourceActionCard {
     }
 
     @Override
-    public String getName() {
+    public String getBaseName() {
         return "羊市场";
     }
 
